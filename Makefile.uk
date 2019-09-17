@@ -1,0 +1,79 @@
+#  duktape Makefile.uk
+#
+#  Authors: Felipe Huici <felipe.huici@neclab.eu>
+#
+#
+#  Copyright (c) 2019, NEC Europe Ltd., NEC Corporation. All rights reserved.
+#
+#  Redistribution and use in source and binary forms, with or without
+#  modification, are permitted provided that the following conditions
+#  are met:
+#
+#  1. Redistributions of source code must retain the above copyright
+#     notice, this list of conditions and the following disclaimer.
+#  2. Redistributions in binary form must reproduce the above copyright
+#     notice, this list of conditions and the following disclaimer in the
+#     documentation and/or other materials provided with the distribution.
+#  3. Neither the name of the copyright holder nor the names of its
+#     contributors may be used to endorse or promote products derived from
+#     this software without specific prior written permission.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+#  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+#  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+#  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+#  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+#  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+#  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+#  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+#  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+#  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+#  POSSIBILITY OF SUCH DAMAGE.
+#
+#  THIS HEADER MAY NOT BE EXTRACTED OR MODIFIED IN ANY WAY.
+#
+
+################################################################################
+# Library registration
+################################################################################
+$(eval $(call addlib_s,duktape,$(CONFIG_DUKTAPE)))
+
+################################################################################
+# Sources
+################################################################################
+DUKTAPE_VERSION=2.4.0
+DUKTAPE_URL=https://duktape.org/duktape-$(DUKTAPE_VERSION).tar.xz
+DUKTAPE_PATCHDIR=$(DUKTAPE_BASE)/patches
+
+$(eval $(call fetchas,duktape,$(DUKTAPE_URL),$(DUKTAPE_VERSION).tar.xz))
+$(eval $(call patch,duktape,$(DUKTAPE_PATCHDIR),duktape-$(DUKTAPE_VERSION)))
+
+################################################################################
+# Helpers
+################################################################################
+DUKTAPE_EXTRACTED=$(DUKTAPE_ORIGIN)/duktape-$(DUKTAPE_VERSION)
+DUKTAPE_GENERATED=$(DUKTAPE_EXTRACTED)/duktape-src
+
+################################################################################
+# Library includes
+################################################################################
+CINCLUDES-$(CONFIG_DUKTAPE) += -I$(DUKTAPE_EXTRACTED)/duktape-src
+CXXINCLUDES-$(CONFIG_DUKTAPE) += -I$(DUKTAPE_EXTRACTED)/duktape-src
+
+################################################################################
+# Sources
+################################################################################
+DUKTAPE_SRCS-y += $(DUKTAPE_GENERATED)/duktape.c
+DUKTAPE_SRCS-y += $(DUKTAPE_EXTRACTED)/examples/cmdline/duk_cmdline.c
+
+################################################################################
+# Lib-specific Targets
+################################################################################
+# Generate single-file source for build
+$(DUKTAPE_BUILD)/.prepared: $(DUKTAPE_BUILD)/.origin
+	$(call build_cmd,CONF,duktape,$@,\
+	cd $(DUKTAPE_EXTRACTED)/ && \
+	python tools/configure.py --output-directory duktape-src -DDUK_USE_FASTINT -UDUK_USE_ES6_PROXY && \
+	touch $@)
+
+UK_PREPARE += $(DUKTAPE_BUILD)/.prepared
