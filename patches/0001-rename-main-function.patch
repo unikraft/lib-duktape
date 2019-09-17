@@ -1,0 +1,11 @@
+--- a/examples/cmdline/duk_cmdline.c	2019-09-09 08:23:15.891284704 +0200
++++ b/examples/cmdline/duk_cmdline.c	2019-09-09 08:22:57.783472251 +0200
+@@ -1260,7 +1260,7 @@
+  *  Main
+  */
+ 
+-int main(int argc, char *argv[]) {
++int duktape_main(int argc, char *argv[]) {
+ 	duk_context *ctx = NULL;
+ 	int retval = 0;
+ 	int have_files = 0;
