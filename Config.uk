@@ -1,0 +1,4 @@
+config DUKTAPE
+	   bool "Duktape - an embeddable Javascript engine"
+	   default n
+           select LIBNEWLIBC
