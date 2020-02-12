@@ -1,0 +1,28 @@
+--- a/examples/cmdline/duk_cmdline.c	2020-02-12 14:43:19.599772761 +0100
++++ b/examples/cmdline/duk_cmdline.c	2020-02-12 14:41:23.393106690 +0100
+@@ -1265,7 +1265,7 @@
+ 	int retval = 0;
+ 	int have_files = 0;
+ 	int have_eval = 0;
+-	int interactive = 0;
++	int interactive = 1;
+ 	int memlimit_high = 1;
+ 	int alloc_provider = ALLOC_DEFAULT;
+ 	int lowmem_log = 0;
+@@ -1456,6 +1456,7 @@
+ 			continue;
+ 		}
+ 
++		/*
+ 		if (verbose) {
+ 			fprintf(stderr, "*** Executing file: %s\n", arg);
+ 			fflush(stderr);
+@@ -1465,7 +1466,7 @@
+ 			retval = 1;
+ 			goto cleanup;
+ 		}
+-
++		*/
+ 		if (recreate_heap) {
+ 			if (verbose) {
+ 				fprintf(stderr, "*** Recreating heap...\n");

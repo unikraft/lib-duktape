@@ -1,4 +1,10 @@
-config DUKTAPE
+menuconfig DUKTAPE
 	   bool "Duktape - an embeddable Javascript engine"
 	   default n
            select LIBNEWLIBC
+
+if DUKTAPE
+config DUKTAPE_MAIN_FUNCTION
+       bool "Provide main function"
+       default y
+endif

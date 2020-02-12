@@ -61,8 +61,16 @@ CINCLUDES-$(CONFIG_DUKTAPE) += -I$(DUKTAPE_EXTRACTED)/duktape-src
 CXXINCLUDES-$(CONFIG_DUKTAPE) += -I$(DUKTAPE_EXTRACTED)/duktape-src
 
 ################################################################################
+# Library flags
+################################################################################
+DUKTAPE_CFLAGS-y += -Wno-unused-function
+DUKTAPE_CXXFLAGS-y += -Wno-unused-function
+
+################################################################################
 # Sources
 ################################################################################
+DUKTAPE_DUK_CMDLINE_FLAGS-y += -Dmain=duktape_main
+DUKTAPE_SRCS-$(CONFIG_DUKTAPE_MAIN_FUNCTION) += $(DUKTAPE_BASE)/glue.c
 DUKTAPE_SRCS-y += $(DUKTAPE_GENERATED)/duktape.c
 DUKTAPE_SRCS-y += $(DUKTAPE_EXTRACTED)/examples/cmdline/duk_cmdline.c
 
