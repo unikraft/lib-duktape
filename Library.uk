@@ -1,0 +1,6 @@
+name        := "duktape"
+description := "An embeddable Javascript engine, with a focus on portability and compact footprint."
+gitrepo     := "https://github.com/svaarala/duktape.git"
+homepage    := "https://duktape.org/"
+version     := 2.4.0 sha256:86a89307d1633b5cedb2c6e56dc86e92679fc34b05be551722d8cc69ab0771fc https://duktape.org/duktape-2.4.0.tar.xz
+license     := "MIT"
