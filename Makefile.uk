@@ -79,7 +79,7 @@ DUKTAPE_SRCS-y += $(DUKTAPE_EXTRACTED)/examples/cmdline/duk_cmdline.c
 $(DUKTAPE_BUILD)/.prepared: $(DUKTAPE_BUILD)/.origin
 	$(call build_cmd,CONF,duktape,$@,\
 	cd $(DUKTAPE_EXTRACTED)/ && \
-	python tools/configure.py --output-directory duktape-src -DDUK_USE_FASTINT -UDUK_USE_ES6_PROXY && \
+	python2 tools/configure.py --output-directory duktape-src -DDUK_USE_FASTINT -UDUK_USE_ES6_PROXY && \
 	touch $@)
 
 UK_PREPARE += $(DUKTAPE_BUILD)/.prepared
